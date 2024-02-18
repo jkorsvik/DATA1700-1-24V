@@ -65,13 +65,15 @@ class TicketManager {
   }
 
   setError (field, condition, errorMessage) {
-    console.log(field)  // debug
     const errorField = document.getElementById(`${field}Error`)
+    const inputField = document.getElementById(field)
     if (condition) {
       errorField.innerHTML = errorMessage
+      inputField.classList.add('error')
       return false
     } else {
       errorField.innerHTML = ''
+      inputField.classList.remove('error')
       return true
     }
   }
