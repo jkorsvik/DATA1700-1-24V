@@ -58,7 +58,7 @@ class TicketManager {
     isValid &= this.setError(
       'epost',
       epost === '' || !epostRegex.test(epost),
-      'Må skrive noe inn i epost og det må være gyldig'
+      'Ikke en gyldig epostadresse (abc@abc.com)'
     )
 
     return isValid
