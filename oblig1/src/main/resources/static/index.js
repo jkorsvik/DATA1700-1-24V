@@ -31,7 +31,9 @@ class TicketManager {
 
   validateTicket (film, antall, fornavn, etternavn, telefon, epost) {
     let isValid = true
-    const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    // Regex for epost and telefon number
+    // Source: https://emailregex.com/ 
+    const epostRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const tlfRegex = /^\+\d{2}[\s?-]\d{8}$/
 
     isValid &= this.setError('film', film === 'velg', 'Må velge en film')
