@@ -32,7 +32,7 @@ class TicketManager {
   validateTicket (film, antall, fornavn, etternavn, telefon, epost) {
     let isValid = true
     const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const tlfRegex = /^+\d{2}[\s?-]\d{8}$/
+    const tlfRegex = /^\+\d{2}[\s?-]\d{8}$/
 
     isValid &= this.setError('film', film === 'velg', 'Må velge en film')
     isValid &= this.setError(
@@ -65,6 +65,7 @@ class TicketManager {
   }
 
   setError (field, condition, errorMessage) {
+    console.log(field)  // debug
     const errorField = document.getElementById(`${field}Error`)
     if (condition) {
       errorField.innerHTML = errorMessage
