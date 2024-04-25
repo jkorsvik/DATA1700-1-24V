@@ -1,5 +1,7 @@
 const backend_url_ip = 'http://127.0.0.1:8080'
 //const backend_url = 'http://localhost:8080'
+
+// CHANGE ME TO ONE OF THE ABOVE WHEN TESTING, IT was a workaround for the github.dev environment
 const backend_url = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev'
 
 class TicketManager {
