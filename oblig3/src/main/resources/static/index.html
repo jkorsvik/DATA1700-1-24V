@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>OsloMet Kino Der Toten</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      select,
+      input[type='number'],
+      input[type='text'] {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .error {
+        border: 1px solid red;
+      }
+      #billetter {
+        display: block;
+        margin-top: 20px;
+      }
+      #form-container,
+      #billetter-container {
+        width: 45%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="form-container">
+      <h1>Bestilling av kinobiletter</h1>
+
+      <label for="film">Velg film:</label>
+      <select name="film" id="film">
+        <option value="velg">Velg film her</option>
+        <option value="schindler ">Schindlers List 1</option>
+        <option value="bigfish">Big Fish</option>
+        <option value="rocky42">Rocky 42</option>
+      </select>
+      <label for="film" id="filmError"></label>
+
+      <br />
+
+      <label for="antall">Antall:</label>
+      <input type="number" id="antall" />
+      <label for="antall" id="antallError"></label>
+      <br />
+
+      <label for="fornavn">Fornavn:</label>
+      <input type="text" id="fornavn" />
+      <label for="antall" id="fornavnError"></label>
+      <br />
+
+      <label for="etternavn">Etternavn:</label>
+      <input type="text" id="etternavn" />
+      <label for="antall" id="etternavnError"></label>
+      <br />
+
+      <label for="telefon">Telefonnr:</label>
+      <input type="text" id="telefon" />
+      <label for="antall" id="telefonError"></label>
+
+      <br />
+
+      <label for="epost">Epost:</label>
+      <input type="text" id="epost" />
+      <label for="antall" id="epostError"></label>
+      <br />
+
+      <button type="submit" id="kjop">Kjøp billett</button>
+
+
+    </div>
+
+    <div id="billetter-container">
+
+      <h2>Alle billetter</h2>
+      <label id="billetter"></label>
+      <button type="submit" id="slett">Slett alle billettene</button>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

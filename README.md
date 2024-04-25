@@ -10,6 +10,8 @@ MAVEN
 SPRING
 ```
 
+run to install:
+sdk install java 17.0.11-amzn
 
 *Run code:*
 ```bash
