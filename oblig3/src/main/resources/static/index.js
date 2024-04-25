@@ -7,10 +7,10 @@ class TicketManager {
   initializeEventListeners () {
     document
       .getElementById('kjop')
-      .addEventListener('click', () => this.addTicket())
+      .addEventListener('click', () => this.addTicket()) // 
     document
       .getElementById('slett')
-      .addEventListener('click', () => this.deleteAllTickets())
+      .addEventListener('click', () => this.deleteAllTickets()) // Delete all tickets 
   }
 
   addTicket () {
