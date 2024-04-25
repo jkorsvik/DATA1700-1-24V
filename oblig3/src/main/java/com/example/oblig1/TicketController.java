@@ -1,3 +1,14 @@
+package com.example.oblig1;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+// import TicketRepository from the same package
+import com.example.oblig1.TicketRepository;
+// import Ticket from the same package
+import com.example.oblig1.Ticket;
+// import TICKET_NOT_FOUND from the same package
+import com.example.oblig1.TicketNotFoundException;
+
 @RestController
 public class TicketController {
     private final TicketRepository repository;
