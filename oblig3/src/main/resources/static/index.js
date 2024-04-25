@@ -27,6 +27,20 @@ class TicketManager {
     }
   }
 
+  async getTickets() {
+    try {
+      const response = await fetch('/tickets');
+      if (!response.ok) {
+        throw new Error('Failed to fetch tickets');
+      }
+      const data = await response.json();
+      this.tickets = data; // assuming data is an array of ticket objects
+      this.displayTickets();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   async postTicket(ticket) {
     try {
       const response = await fetch('/tickets', {
@@ -142,5 +156,6 @@ class TicketManager {
 
 // Initialize the ticket manager when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
-  new TicketManager()
+  new TicketManager();
+  TicketManager.getTickets(); // Fetch tickets when the page loads
 })
