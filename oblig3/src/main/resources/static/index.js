@@ -14,20 +14,55 @@ class TicketManager {
   }
 
   addTicket () {
-    const film = document.getElementById('film').value
-    const antall = document.getElementById('antall').value
-    const fornavn = document.getElementById('fornavn').value
-    const etternavn = document.getElementById('etternavn').value
-    const telefon = document.getElementById('telefon').value
-    const epost = document.getElementById('epost').value
+    let film = document.getElementById('film').value
+    let antall = document.getElementById('antall').value
+    let fornavn = document.getElementById('fornavn').value
+    let etternavn = document.getElementById('etternavn').value
+    let telefon = document.getElementById('telefon').value
+    let epost = document.getElementById('epost').value
 
     if (this.validateTicket(film, antall, fornavn, etternavn, telefon, epost)) {
       const ticket = { film, antall, fornavn, etternavn, telefon, epost }
-      this.tickets.push(ticket)
-      this.resetFormFields()
-      this.displayTickets()
+      this.postTicket(ticket);
     }
   }
+
+  async postTicket(ticket) {
+    try {
+      const response = await fetch('/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ticket),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add ticket');
+      }
+      const data = await response.json();
+      this.tickets.push(data);
+      this.resetFormFields();
+      this.displayTickets();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  async deleteTicket(ticketId) {
+    try {
+      const response = await fetch(`/tickets/${ticketId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete ticket');
+      }
+      this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
+      this.displayTickets();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 
   validateTicket (film, antall, fornavn, etternavn, telefon, epost) {
     let isValid = true
