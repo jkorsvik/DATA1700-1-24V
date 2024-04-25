@@ -12,6 +12,9 @@ public class Ticket {
     private String telefon;
     private String epost;
 
+    // Default constructor, needed for reading json after serialization
+    public Ticket() {
+    }
     public Ticket(String film, int antall, String fornavn, String etternavn, String telefon, String epost) {
         // Auto generate ID
         this.id = ++counter; // Auto generate ID
