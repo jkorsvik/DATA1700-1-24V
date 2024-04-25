@@ -13,20 +13,33 @@ import java.io.File;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class Oblig1Application {
 
 	// List of tickets
 	private List<Ticket> tickets = new ArrayList<Ticket>();
-	
 
 	public static void main(String[] args) {
 		SpringApplication.run(Oblig1Application.class, args);
 	}
 
-	
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8080")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedHeaders("*")
+						.allowCredentials(true);
+			}
+		};
+	}
+
 	// API method for getting all tickets
 	@GetMapping("/tickets")
 	public List<Ticket> getAllTickets() {
@@ -52,7 +65,8 @@ public class Oblig1Application {
 			try {
 				// Read the JSON file and map it to a list of tickets
 				ObjectMapper objectMapper = new ObjectMapper();
-				tickets = objectMapper.readValue(file, new TypeReference<List<Ticket>>() {});
+				tickets = objectMapper.readValue(file, new TypeReference<List<Ticket>>() {
+				});
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -97,7 +111,7 @@ public class Oblig1Application {
 		private String etternavn;
 		private String telefon;
 		private String epost;
-	
+
 		public Ticket(String film, int antall, String fornavn, String etternavn, String telefon, String epost) {
 			// Auto generate ID
 			this.id = ++counter; // Auto generate ID
@@ -108,60 +122,61 @@ public class Oblig1Application {
 			this.telefon = telefon;
 			this.epost = epost;
 		}
-	
+
 		// getters and setters
 		public Integer getId() {
 			return this.id;
 		}
+
 		// No setter for ID, as it should be auto generated
 		public String getFilm() {
 			return this.film;
 		}
-	
+
 		public void setFilm(String film) {
 			this.film = film;
 		}
-	
+
 		// Repeat for the other fields
 		public int getAntall() {
 			return this.antall;
 		}
-	
+
 		public void setAntall(int antall) {
 			this.antall = antall;
 		}
-	
+
 		public String getFornavn() {
 			return this.fornavn;
 		}
-	
+
 		public void setFornavn(String fornavn) {
 			this.fornavn = fornavn;
 		}
-	
+
 		public String getEtternavn() {
 			return this.etternavn;
 		}
-	
+
 		public void setEtternavn(String etternavn) {
 			this.etternavn = etternavn;
 		}
-	
+
 		public String getTelefon() {
 			return this.telefon;
 		}
-	
+
 		public void setTelefon(String telefon) {
 			this.telefon = telefon;
 		}
-	
+
 		public String getEpost() {
 			return this.epost;
 		}
-	
+
 		public void setEpost(String epost) {
 			this.epost = epost;
 		}
-	
+
 	}
 }
