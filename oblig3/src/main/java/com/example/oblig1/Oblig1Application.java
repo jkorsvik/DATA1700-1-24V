@@ -74,7 +74,10 @@ public class Oblig1Application {
 		}
 	
 		// getters and setters
-	
+		public Integer getId() {
+			return this.id;
+		}
+		// No setter for ID, as it should be auto generated
 		public String getFilm() {
 			return this.film;
 		}
