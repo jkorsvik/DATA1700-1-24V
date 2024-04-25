@@ -2,7 +2,7 @@ package com.example.oblig1;
 // Ticket class
 public class Ticket {
     // Ticket counter for id
-    private static int counter = 0;
+    private int counter = 0;
 
     private Integer id;
     private String film;
@@ -14,6 +14,7 @@ public class Ticket {
 
     // Default constructor, needed for reading json after serialization
     public Ticket() {
+        this.id = ++counter; // Auto generate ID
     }
     public Ticket(String film, int antall, String fornavn, String etternavn, String telefon, String epost) {
         // Auto generate ID

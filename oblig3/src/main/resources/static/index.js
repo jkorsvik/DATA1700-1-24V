@@ -82,7 +82,7 @@ class TicketManager {
   }
 
 
-  async deleteAllTickets() {
+  async deleteAllTicketsCall() {
     try {
       const response = await fetch(backend_url + '/delete_all_tickets', {
         method: 'DELETE',
@@ -181,8 +181,8 @@ class TicketManager {
   deleteAllTickets() {
     this.tickets = [];
     document.getElementById('billetter').innerHTML = '';
-    document.getElementById('slett').disabled = true; // Disable the button when there are no tickets
-    this.deleteAllTickets();
+    //document.getElementById('slett').disabled = true; // Disable the button when there are no tickets
+    this.deleteAllTicketsCall();
   }
 
   deleteTicket(ticketId) {

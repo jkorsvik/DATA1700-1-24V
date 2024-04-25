@@ -124,7 +124,7 @@ public class Oblig1Application {
 	}
 
 	// API method for deleting a ticket by id
-	@DeleteMapping("/delete_tickets/{id}")
+	@DeleteMapping("/delete_ticket/{id}")
 	public ResponseEntity<?> deleteTicketById(@PathVariable Integer id) {
 		for (Ticket ticket : tickets) {
 			if (ticket.getId().equals(id)) {
