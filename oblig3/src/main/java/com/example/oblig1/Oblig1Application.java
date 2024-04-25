@@ -21,8 +21,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+
 // import local Ticket class
 import com.example.oblig1.Ticket;
+import com.example.oblig1.DatabaseService;
 
 @SpringBootApplication
 @RestController
@@ -32,7 +34,11 @@ public class Oblig1Application {
 	private List<Ticket> tickets = new ArrayList<Ticket>();
 
 	public static void main(String[] args) {
+		//DatabaseService.createNewDatabase();
+		//DatabaseService.createNewTable();
 		SpringApplication.run(Oblig1Application.class, args);
+		
+		
 	}
 
 	@Bean
@@ -111,11 +117,23 @@ public class Oblig1Application {
 	}
 
 	// API method for deleting all tickets
-	@DeleteMapping("/delete_tickets")
+	@DeleteMapping("/delete_all_tickets")
 	public void deleteAllTickets() {
 		tickets.clear();
 		updateTicketsFile(); // Update the JSON file
 	}
 
-	
+	// API method for deleting a ticket by id
+	@DeleteMapping("/delete_tickets/{id}")
+	public ResponseEntity<?> deleteTicketById(@PathVariable Integer id) {
+		for (Ticket ticket : tickets) {
+			if (ticket.getId().equals(id)) {
+				tickets.remove(ticket);
+				updateTicketsFile(); // Update the JSON file
+				return new ResponseEntity<>("Ticket deleted successfully", HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>("Ticket not found", HttpStatus.NOT_FOUND);
+	}
+
 }

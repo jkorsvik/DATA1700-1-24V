@@ -66,15 +66,31 @@ class TicketManager {
     }
   }
 
-  async deleteTicket(ticketId) {
+  async deleteTicketCall(ticketId) {
     try {
-      const response = await fetch(backend_url + `/tickets/${ticketId}`, {
+      const response = await fetch(backend_url + `/delete_ticket/${ticketId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Failed to delete ticket');
       }
       this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
+      this.displayTickets();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+
+  async deleteAllTickets() {
+    try {
+      const response = await fetch(backend_url + '/delete_all_tickets', {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete all tickets');
+      }
+      this.tickets = [];
       this.displayTickets();
     } catch (error) {
       console.error('Error:', error);
@@ -166,7 +182,15 @@ class TicketManager {
     this.tickets = [];
     document.getElementById('billetter').innerHTML = '';
     document.getElementById('slett').disabled = true; // Disable the button when there are no tickets
+    this.deleteAllTickets();
   }
+
+  deleteTicket(ticketId) {
+    this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
+    this.displayTickets();
+    this.deleteTicketCall(ticketId);
+  }
+
 }
 
 // Initialize the ticket manager when the document is ready
@@ -180,7 +204,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Add event listener for the "Søk" button
   document.getElementById('search').addEventListener('click', () => {
-    const ticketId = document.getElementById('ticketId').value;
+    const ticketId = parseInt(document.getElementById('ticketId').value);
     ticketManager.searchTicketById(ticketId);
   });
+
+  document.getElementById('delete').addEventListener('click', () => {
+    const ticketId = parseInt(document.getElementById('ticketId').value);
+    ticketManager.deleteTicket(ticketId);
+  });
+
+
 })
