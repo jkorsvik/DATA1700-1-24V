@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import java.io.File;
+import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 
 @SpringBootApplication
@@ -16,10 +20,13 @@ public class Oblig1Application {
 
 	// List of tickets
 	private List<Ticket> tickets = new ArrayList<Ticket>();
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(Oblig1Application.class, args);
 	}
+
+	
 	// API method for getting all tickets
 	@GetMapping("/tickets")
 	public List<Ticket> getAllTickets() {
@@ -37,10 +44,37 @@ public class Oblig1Application {
 		return null; // Ticket not found
 	}
 
+	// Read tickets from JSON file at startup
+	{
+		// Look for a JSON file with the tickets
+		File file = new File("tickets.json");
+		if (file.exists()) {
+			try {
+				// Read the JSON file and map it to a list of tickets
+				ObjectMapper objectMapper = new ObjectMapper();
+				tickets = objectMapper.readValue(file, new TypeReference<List<Ticket>>() {});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Method to update the JSON file whenever there is a change
+	private void updateTicketsFile() {
+		try {
+			// Write the updated list of tickets to the JSON file
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.writeValue(new File("tickets.json"), tickets);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	// API method for posting new tickets
 	@PostMapping("/tickets")
 	public Ticket postTicket(@RequestBody Ticket ticket) {
 		tickets.add(ticket);
+		updateTicketsFile(); // Update the JSON file
 		return ticket;
 	}
 
@@ -48,7 +82,9 @@ public class Oblig1Application {
 	@DeleteMapping("/tickets")
 	public void deleteAllTickets() {
 		tickets.clear();
+		updateTicketsFile(); // Update the JSON file
 	}
+
 	// Ticket class
 	public class Ticket {
 		// Ticket counter for id
