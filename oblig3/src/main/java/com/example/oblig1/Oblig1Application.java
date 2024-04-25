@@ -16,6 +16,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @SpringBootApplication
 public class Oblig1Application {
@@ -33,7 +35,8 @@ public class Oblig1Application {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8080")
+						.allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8080",
+								"https://studious-system-7px779946wxcw6w7-8080.app.github.dev/:8080")
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 						.allowedHeaders("*")
 						.allowCredentials(true);
@@ -42,13 +45,21 @@ public class Oblig1Application {
 	}
 
 	// API method for getting all tickets
-	@GetMapping("/tickets")
-	public List<Ticket> getAllTickets() {
-		return tickets;
+	@GetMapping("/get_tickets")
+	public ResponseEntity<?> getAllTickets() {
+		try {
+			if (tickets.isEmpty()) {
+				return new ResponseEntity<>("No tickets found", HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(tickets, HttpStatus.OK);
+		} catch (Exception e) {
+			// Handle the exception and return an error response
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// API method for getting a ticket by id
-	@GetMapping("/tickets/{id}")
+	@GetMapping("/get_tickets/{id}")
 	public Ticket getTicketById(@PathVariable Integer id) {
 		for (Ticket ticket : tickets) {
 			if (ticket.getId().equals(id)) {
@@ -86,7 +97,7 @@ public class Oblig1Application {
 	}
 
 	// API method for posting new tickets
-	@PostMapping("/tickets")
+	@PostMapping("/post_tickets")
 	public Ticket postTicket(@RequestBody Ticket ticket) {
 		tickets.add(ticket);
 		updateTicketsFile(); // Update the JSON file
@@ -94,7 +105,7 @@ public class Oblig1Application {
 	}
 
 	// API method for deleting all tickets
-	@DeleteMapping("/tickets")
+	@DeleteMapping("/delete_tickets")
 	public void deleteAllTickets() {
 		tickets.clear();
 		updateTicketsFile(); // Update the JSON file

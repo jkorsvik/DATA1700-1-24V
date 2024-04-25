@@ -1,13 +1,13 @@
-const backend_url_local = 'http://localhost:8080'
-const backend_url = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev/:8080'
+const backend_url = 'http://127.0.0.1:8080'
+const backend_url_Codespace = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev/:8080'
 
 class TicketManager {
-  constructor () {
+  constructor() {
     this.tickets = []
     this.initializeEventListeners()
   }
-  
-  initializeEventListeners () {
+
+  initializeEventListeners() {
     document
       .getElementById('kjop')
       .addEventListener('click', () => this.addTicket()) // 
@@ -16,7 +16,7 @@ class TicketManager {
       .addEventListener('click', () => this.deleteAllTickets()) // Delete all tickets 
   }
 
-  addTicket () {
+  addTicket() {
     let film = document.getElementById('film').value
     let antall = document.getElementById('antall').value
     let fornavn = document.getElementById('fornavn').value
@@ -32,7 +32,7 @@ class TicketManager {
 
   async getTickets() {
     try {
-      const response = await fetch(backend_url+'/tickets');
+      const response = await fetch(backend_url + '/get_tickets');
       if (!response.ok) {
         throw new Error('Failed to fetch tickets');
       }
@@ -46,7 +46,7 @@ class TicketManager {
 
   async postTicket(ticket) {
     try {
-      const response = await fetch(backend_url+'/tickets', {
+      const response = await fetch(backend_url + '/post_tickets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ class TicketManager {
 
   async deleteTicket(ticketId) {
     try {
-      const response = await fetch(backend_url+`/tickets/${ticketId}`, {
+      const response = await fetch(backend_url + `/tickets/${ticketId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -81,7 +81,7 @@ class TicketManager {
   }
 
 
-  validateTicket (film, antall, fornavn, etternavn, telefon, epost) {
+  validateTicket(film, antall, fornavn, etternavn, telefon, epost) {
     let isValid = true
     // Regex for epost and telefon number
     // Source: https://emailregex.com/ 
@@ -118,7 +118,7 @@ class TicketManager {
     return isValid
   }
 
-  setError (field, condition, errorMessage) {
+  setError(field, condition, errorMessage) {
     const errorField = document.getElementById(`${field}Error`)
     const inputField = document.getElementById(field)
     if (condition) {
@@ -132,7 +132,7 @@ class TicketManager {
     }
   }
 
-  resetFormFields () {
+  resetFormFields() {
     document.getElementById('film').value = ''
     document.getElementById('antall').value = ''
     document.getElementById('fornavn').value = ''
@@ -141,7 +141,7 @@ class TicketManager {
     document.getElementById('epost').value = ''
   }
 
-  displayTickets () {
+  displayTickets() {
     let table =
       '<table><tr><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefon</th><th>Epost</th></tr>'
     this.tickets.forEach(ticket => {
@@ -151,14 +151,35 @@ class TicketManager {
     document.getElementById('billetter').innerHTML = table
   }
 
-  deleteAllTickets () {
-    this.tickets = []
-    document.getElementById('billetter').innerHTML = ''
+  searchTicketById(id) {
+    const ticket = this.tickets.find(ticket => ticket.id === id);
+    const resultLabel = document.getElementById('searchResult');
+    if (ticket) {
+      resultLabel.innerHTML = `Billett funnet: ${JSON.stringify(ticket)}`;
+    } else {
+      resultLabel.innerHTML = 'Ingen billett funnet med gitt ID';
+    }
+  }
+
+  deleteAllTickets() {
+    this.tickets = [];
+    document.getElementById('billetter').innerHTML = '';
+    document.getElementById('slett').disabled = true; // Disable the button when there are no tickets
   }
 }
 
 // Initialize the ticket manager when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
-  new TicketManager();
-  TicketManager.getTickets(); // Fetch tickets when the page loads
+  const ticketManager = new TicketManager();
+  ticketManager.getTickets(); // Fetch tickets when the page loads
+  // Add event listener for the "Slett alle billettene" button
+  document.getElementById('slett').addEventListener('click', () => {
+    ticketManager.deleteAllTickets();
+  });
+
+  // Add event listener for the "Søk" button
+  document.getElementById('search').addEventListener('click', () => {
+    const ticketId = document.getElementById('ticketId').value;
+    ticketManager.searchTicketById(ticketId);
+  });
 })
