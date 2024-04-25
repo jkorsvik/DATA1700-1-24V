@@ -1,10 +1,10 @@
 package com.example.oblig1;
-
-
+// Ticket class
 public class Ticket {
+    // Ticket counter for id
+    private static int counter = 0;
 
     private Integer id;
-
     private String film;
     private int antall;
     private String fornavn;
@@ -13,6 +13,8 @@ public class Ticket {
     private String epost;
 
     public Ticket(String film, int antall, String fornavn, String etternavn, String telefon, String epost) {
+        // Auto generate ID
+        this.id = ++counter; // Auto generate ID
         this.film = film;
         this.antall = antall;
         this.fornavn = fornavn;
@@ -22,7 +24,11 @@ public class Ticket {
     }
 
     // getters and setters
+    public Integer getId() {
+        return this.id;
+    }
 
+    // No setter for ID, as it should be auto generated
     public String getFilm() {
         return this.film;
     }

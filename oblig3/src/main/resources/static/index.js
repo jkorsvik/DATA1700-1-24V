@@ -1,5 +1,6 @@
-const backend_url = 'http://127.0.0.1:8080'
-const backend_url_Codespace = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev/:8080'
+const backend_url_ip = 'http://127.0.0.1:8080'
+//const backend_url = 'http://localhost:8080'
+const backend_url = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev'
 
 class TicketManager {
   constructor() {
@@ -143,9 +144,9 @@ class TicketManager {
 
   displayTickets() {
     let table =
-      '<table><tr><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefon</th><th>Epost</th></tr>'
+      '<table><tr><th>ID</th><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefon</th><th>Epost</th></tr>'
     this.tickets.forEach(ticket => {
-      table += `<tr><td>${ticket.film}</td><td>${ticket.antall}</td><td>${ticket.fornavn}</td><td>${ticket.etternavn}</td><td>${ticket.telefon}</td><td>${ticket.epost}</td></tr>`
+      table += `<tr><td>${ticket.id}</td><td>${ticket.film}</td><td>${ticket.antall}</td><td>${ticket.fornavn}</td><td>${ticket.etternavn}</td><td>${ticket.telefon}</td><td>${ticket.epost}</td></tr>`
     })
     table += '</table>'
     document.getElementById('billetter').innerHTML = table
