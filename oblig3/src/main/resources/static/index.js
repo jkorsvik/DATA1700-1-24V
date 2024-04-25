@@ -1,9 +1,12 @@
+const backend_url_local = 'http://localhost:8080'
+const backend_url = 'https://studious-system-7px779946wxcw6w7-8080.app.github.dev/:8080'
+
 class TicketManager {
   constructor () {
     this.tickets = []
     this.initializeEventListeners()
   }
-
+  
   initializeEventListeners () {
     document
       .getElementById('kjop')
@@ -29,7 +32,7 @@ class TicketManager {
 
   async getTickets() {
     try {
-      const response = await fetch('/tickets');
+      const response = await fetch(backend_url+'/tickets');
       if (!response.ok) {
         throw new Error('Failed to fetch tickets');
       }
@@ -43,7 +46,7 @@ class TicketManager {
 
   async postTicket(ticket) {
     try {
-      const response = await fetch('/tickets', {
+      const response = await fetch(backend_url+'/tickets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +67,7 @@ class TicketManager {
 
   async deleteTicket(ticketId) {
     try {
-      const response = await fetch(`/tickets/${ticketId}`, {
+      const response = await fetch(backend_url+`/tickets/${ticketId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
